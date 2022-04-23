@@ -1,0 +1,11 @@
+{
+  "name": "usbbackdoor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pkg index.js -t node12-win-x64 --output usbbackdoor.exe"
+  },
+  "author": "",
+  "license": "ISC"
+}
