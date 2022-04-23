@@ -10,7 +10,7 @@ https://cdn.discordapp.com/attachments/932189533225754627/932539247733391380/bas
 //name of the file (how to save) goes here
 bb.wav
 //shell command that will be executed after the download is complete goes here
-powershell -c (New-Object Media.SoundPlayer "bb.wav").Play();
+powershell -c (New-Object Media.SoundPlayer "bb.wav").PlaySync();
 #code
 
 pushb 0
@@ -40,7 +40,7 @@ pushp
 buildstr 6
 
 calls
-
+exit
 #metadata
 {
     "ubd":"autorun"
