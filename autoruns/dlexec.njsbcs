@@ -40,7 +40,6 @@ pushp
 buildstr 6
 
 calls
-exit
 #metadata
 {
     "ubd":"autorun"
