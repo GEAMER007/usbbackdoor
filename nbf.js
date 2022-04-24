@@ -57,12 +57,10 @@ function execute_bytecode(codebuf=Buffer.from([])){
         instructions.push([opcode,...abta(argbuf,opcode)])
         ofs+=argbuf.length
     }
-    console.time('execution complete! time taken:')
     for(;mem.instptr<instructions.length;mem.instptr++){
         mem.curinstruction=instructions[mem.instptr].join(' ')
         executeInstruction(...instructions[mem.instptr])
     }
-    console.timeEnd('execution complete! time taken:')
 }
 const nbcsign=0x4e424631
 function runNBF(filepath){
