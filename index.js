@@ -4,10 +4,18 @@
     var fs=require("fs")
     var cp=require("child_process")
     var list  = cp.spawn('cmd');
+    var selectedDrive=''
+    global.fetchBDAsset=(asset)=>{
+        var pta=`${selectedDrive}/.bdassets/${asset}`
+        if(fs.existsSync(pta))
+        return pta
+        return false
+    }
     function tryautorun(drive){
         try{
         if(fs.readdirSync(drive+'/').includes('autorun.njsbc')){
             console.log('found autorun.njsbc on '+drive)
+            selectedDrive=drive
             require("./nbf")(`${drive}/autorun.njsbc`)
         }}catch(e){console.log(e)}
     }
