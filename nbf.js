@@ -106,10 +106,10 @@ function runNBF(filepath){
                     lofs+=2
                     const key=bufCopy(sectionbody,lofs,lofs+strlen).toString('utf-8')
                     lofs+=strlen
-                    strlen=sectionbody.readUint16BE(lofs)
+                    const vstrlen=sectionbody.readUint16BE(lofs)
                     lofs+=2
-                    const value=bufCopy(sectionbody,lofs,lofs+strlen).toString('utf-8')
-                    lofs+=strlen
+                    const value=bufCopy(sectionbody,lofs,lofs+vstrlen).toString('utf-8')
+                    lofs+=vstrlen
                     mem.metadata[key]=value
                  }
                  break
