@@ -1,6 +1,6 @@
-Please make sure that you have enabled viewing hidden files in explorer settings
-
-Current autorun.njsbc contains a rickroll
+- Please make sure that you have enabled viewing hidden files in explorer settings
+- You can delete this file if you want
+- Current autorun.njsbc contains a rickroll
 
 .bdassets is a folder that can store any assets that you want
 - use fetchBDAsset(assetName) function where assetName is a filename of any asset located in this folder to get a path to required asset
