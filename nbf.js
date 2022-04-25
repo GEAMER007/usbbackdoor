@@ -37,6 +37,7 @@ function bufCopy(buf,start,end){
  
 function execute_bytecode(codebuf){
     var ofs=0
+    const instructions=[]
     while(ofs<codebuf.length){
         const opar=opcodes.opcodes[codebuf[ofs++]]
         if(opar[2]!='0'){
@@ -44,11 +45,15 @@ function execute_bytecode(codebuf){
             codebuf.copy(argbuf,0,ofs,ofs+argbuf.length)
             ofs+=argbuf.length
             const arg=opcodes.btypes[opar[2].slice(1,opar[2].length)][1](argbuf)
-            opar[3](arg)
+            instructions.push([opar[3],arg])
             
         }
-        else opar[3]()
+        else instructions.push(opar[3])
 
+    }
+    for(;mem.instptr<instructions.length;mem.instptr++){
+        const ins=instructions[mem.instptr]
+        typeof ins=='function'?ins():ins[0](ins[1])
     }
 }
 const nbcsign=0x4e424631
