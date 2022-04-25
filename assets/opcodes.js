@@ -49,6 +49,12 @@ module.exports=()=>{
         },
     opcodes:[
     [
+        'pushnull',
+        0,
+        '0',
+        ()=>stack.push(null)
+    ],
+    [
         "pushi",
         1,
         "4int",
