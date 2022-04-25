@@ -33,33 +33,22 @@ function bufCopy(buf,start,end){
     return Buffer.from(buffarray)
   }
 
-function abta(abuf,opcode){
-var args=[]
-var ofs=0
-opcmapping.ota[opcode].forEach((v,i)=>{
-    if(i==0||v=='')return
-    var tp=opcodes.btypes[v]
-    args.push(tp[1](bufCopy(abuf,ofs,ofs+tp[0])))
-    ofs+=tp[0]
-})
-return args
-}
- function executeInstruction(opcode,...args){
-     opcmapping.otcb[opcode](...args)
-    
-}
-function execute_bytecode(codebuf=Buffer.from([])){
-    var instructions=[]
+
+ 
+function execute_bytecode(codebuf){
     var ofs=0
     while(ofs<codebuf.length){
-        var opcode=opcmapping.ito[codebuf[ofs++]]
-        var argbuf=bufCopy(codebuf,ofs,opcmapping.ota[opcode][0]+ofs)
-        instructions.push([opcode,...abta(argbuf,opcode)])
-        ofs+=argbuf.length
-    }
-    for(;mem.instptr<instructions.length;mem.instptr++){
-        mem.curinstruction=instructions[mem.instptr].join(' ')
-        executeInstruction(...instructions[mem.instptr])
+        const opar=opcodes.opcodes[codebuf[ofs++]]
+        if(opar[2]!='0'){
+            const argbuf=Buffer.alloc(opar[2][0]-0)
+            codebuf.copy(argbuf,0,ofs,ofs+argbuf.length)
+            ofs+=argbuf.length
+            const arg=opcodes.btypes[opar[2].slice(1,opar[2].length)][1](argbuf)
+            opar[3](arg)
+            
+        }
+        else opar[3]()
+
     }
 }
 const nbcsign=0x4e424631
@@ -87,17 +76,18 @@ function runNBF(filepath){
     ofs+=4
     
     while(ofs<nbcbuf.length){
-        var sectiontype=nbcbuf.readUint8(ofs++)
-        var sectionlen=nbcbuf.readUint16BE(ofs)
+        const sectiontype=nbcbuf.readUint8(ofs++)
+        const sectionlen=nbcbuf.readUint16BE(ofs)
         ofs+=2
-        var sectionbody=bufCopy(nbcbuf,ofs,ofs+sectionlen)
+        const sectionbody=Buffer.alloc(sectionlen)//bufCopy(nbcbuf,ofs,ofs+sectionlen)
+        nbcbuf.copy(sectionbody,0,ofs,ofs+sectionlen)
         ofs+=sectionlen
         var lofs=0
         switch(sectiontype){
             //strpool
             case 1:{
                while(lofs<sectionbody.length){
-                   var strlen=sectionbody.readUint16BE(lofs)
+                   const strlen=sectionbody.readUint16BE(lofs)
                    lofs+=2
                    mem.strpool.push(bufCopy(sectionbody,lofs,lofs+strlen).toString('utf-8'))
                    lofs+=strlen
@@ -112,13 +102,13 @@ function runNBF(filepath){
             //metadata key-value pairs
             case 3:{
                 while(lofs<sectionbody.length){
-                    var strlen=sectionbody.readUint16BE(lofs)
+                    const strlen=sectionbody.readUint16BE(lofs)
                     lofs+=2
-                    var key=bufCopy(sectionbody,lofs,lofs+strlen).toString('utf-8')
+                    const key=bufCopy(sectionbody,lofs,lofs+strlen).toString('utf-8')
                     lofs+=strlen
                     strlen=sectionbody.readUint16BE(lofs)
                     lofs+=2
-                    var value=bufCopy(sectionbody,lofs,lofs+strlen).toString('utf-8')
+                    const value=bufCopy(sectionbody,lofs,lofs+strlen).toString('utf-8')
                     lofs+=strlen
                     mem.metadata[key]=value
                  }

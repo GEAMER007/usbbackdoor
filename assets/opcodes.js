@@ -1,17 +1,17 @@
-// class Memory{
-//     constructor() {
-//         this.stack=[]
-//         this.strpool=[]
-//         this.codepoints={}
-//         this.vartab={}
-//         this.bytecode=Buffer.from([])
-//         this.instptr=0
-//         this.curinstruction=''
-//         this.metadata={}
-//     }
+class Memory{
+    constructor() {
+        this.stack=[]
+        this.strpool=[]
+        this.codepoints={}
+        this.vartab={}
+        this.bytecode=Buffer.from([])
+        this.instptr=0
+        this.curinstruction=''
+        this.metadata={}
+    }
     
-// }
-module.exports=()=>{
+}
+module.exports=(mem=new Memory())=>{
     var {strpool,vartab,stack}=mem
     return{
     btypes:{
@@ -23,17 +23,17 @@ module.exports=()=>{
         "char":[
             2,
             b=>String.fromCharCode(b.readUInt16BE(0)),
-            (str='')=>{var buf=Buffer.from([0,0]);buf.writeUInt16BE(str.charCodeAt(0));return buf}
+            (str='')=>{const buf=Buffer.alloc(2);buf.writeUInt16BE(str.charCodeAt(0));return buf}
         ],
         "int":[
             4,
             b=>b.readUInt32BE(0),
-            str=>{var buf=Buffer.from([0,0,0,0]);buf.writeUInt32BE(str-0);return buf}
+            str=>{const buf=Buffer.alloc(4);buf.writeUInt32BE(str-0);return buf}
         ],
         "short":[
             2,
             b=>b.readUInt16BE(0),
-            str=>{var buf=Buffer.from([0,0]);buf.writeUInt16BE(str-0);return buf}
+            str=>{const buf=Buffer.alloc(2);buf.writeUInt16BE(str-0);return buf}
         ]
         
     },
@@ -65,9 +65,9 @@ module.exports=()=>{
         2,
         "0",
         ()=>{
-            var func=stack.shift();
-            var args=stack.splice(0,stack.length)
-            var ret=func(...args)
+            const func=stack.shift();
+            const args=stack.splice(0,stack.length)
+            const ret=func(...args)
             stack.push(ret)
         }
         
@@ -114,8 +114,8 @@ module.exports=()=>{
         9,
         '0',
         ()=>{
-            var pname=stack.pop();
-            var container=stack.pop();
+            const pname=stack.pop();
+            const container=stack.pop();
             stack.push(container[pname])
         }
     ],
@@ -124,9 +124,9 @@ module.exports=()=>{
         10,
         '0',
         ()=>{
-            var newval=stack.pop()
-            var pname=stack.pop();
-            var container=stack.pop();
+            const newval=stack.pop()
+            const pname=stack.pop();
+            const container=stack.pop();
             container[pname]=newval
             stack.push(container)
         }
@@ -135,15 +135,15 @@ module.exports=()=>{
         'exit',
         11,
         '4int',
-        i=>mem.instptr=Infinity
+        i=>process.exit(i)
     ],
     [
         'new',
         12,
         '0',
         ()=>{
-            var clss=stack.shift()
-            var args=stack.splice(0,stack.length)
+            const clss=stack.shift()
+            const args=stack.splice(0,stack.length)
             inst=new clss(...args)
             stack.push(inst)
         }
@@ -262,9 +262,9 @@ module.exports=()=>{
         31,
         '0',
         ()=>{
-            var w=stack.pop()
-            var t=stack.pop()-1
-            var f=stack.pop()-1
+            const w=stack.pop()
+            const t=stack.pop()-1
+            const f=stack.pop()-1
             mem.instptr=w?t:f
         }
     ],
@@ -333,8 +333,8 @@ module.exports=()=>{
         42,
         '0',
         ()=>{
-            var v1=stack.pop();
-            var v2=stack.pop();
+            const v1=stack.pop();
+            const v2=stack.pop();
             stack.push(v1&&!v2||!v1&&v2)
         }
     ],
