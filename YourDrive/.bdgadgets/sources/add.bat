@@ -1,0 +1,1 @@
+powershell -c "$(Get-Item '%1').Attributes += 'Hidden';move -Force '%1' .."

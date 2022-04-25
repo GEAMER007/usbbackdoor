@@ -1,0 +1,1 @@
+extract all the contents from YourDrive folder onto your drive and run init.bat

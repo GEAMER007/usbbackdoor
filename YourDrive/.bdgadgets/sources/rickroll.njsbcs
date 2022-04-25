@@ -1,0 +1,28 @@
+#strpool
+require
+child_process
+exec
+start https://www.youtube.com/watch?v=dQw4w9WgXcQ
+
+#code
+
+pushb 0
+pushp
+pushgl
+
+pushb 1
+pushp
+calls
+
+pushb 2
+pushp
+getp
+
+pushb 3
+pushp
+calls
+
+#metadata
+{
+    "ubd":"autorun"
+}
